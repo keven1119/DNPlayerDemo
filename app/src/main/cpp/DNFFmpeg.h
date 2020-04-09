@@ -1,37 +1,42 @@
 //
-// Created by yons on 2020-04-08.
+// Created by Administrator on 2018/9/5.
 //
 
-#include <sys/types.h>
-#include <pthread.h>
-#include "JavaCallHelper.h"
+#ifndef PLAYER_DNFFMPEG_H
+#define PLAYER_DNFFMPEG_H
 
-extern "C" {
+#include "JavaCallHelper.h"
+#include "AudioChannel.h"
+#include "VideoChannel.h"
+
+extern  "C" {
 #include <libavformat/avformat.h>
 }
 
 
-#ifndef DNPLAYERDEMO_DNPLAYER_H
-#define DNPLAYERDEMO_DNPLAYER_H
-
-class DNFFmpeg{
+class DNFFmpeg {
 public:
-    DNFFmpeg(JavaCallHelper* javaCallHelper, const char* datasource);
+    DNFFmpeg(JavaCallHelper* callHelper,const char* dataSource);
     ~DNFFmpeg();
 
-    void _prepare();
     void prepare();
+    void _prepare();
 
+    void start();
+    void _start();
 
+    void setRenderFrameCallback(RenderFrameCallback callback);
 private:
-    char *dataSource = 0;
+    char *dataSource;
     pthread_t pid;
-    AVFormatContext *formatContext;
-    JavaCallHelper *javaCallHelper;
-
-
+    pthread_t pid_play;
+    AVFormatContext *formatContext = 0;
+    JavaCallHelper* callHelper;
+    AudioChannel *audioChannel = 0;
+    VideoChannel *videoChannel = 0;
+    RenderFrameCallback callback;
+    bool isPlaying;
 };
 
 
-#endif //DNPLAYERDEMO_DNPLAYER_H
-
+#endif //PLAYER_DNFFMPEG_H

@@ -1,28 +1,27 @@
 //
-// Created by yons on 2020-04-08.
+// Created by Administrator on 2018/9/5.
 //
 
-#ifndef DNPLAYERDEMO_JAVACALLHELPER_H
-#define DNPLAYERDEMO_JAVACALLHELPER_H
+#ifndef PLAYER_JAVACALLHELPER_H
+#define PLAYER_JAVACALLHELPER_H
+
 
 #include <jni.h>
+
 class JavaCallHelper {
-
 public:
-    JavaCallHelper(JavaVM *vm, JNIEnv *env, jobject instance);
-
+    JavaCallHelper(JavaVM *vm,JNIEnv* env,jobject instace);
     ~JavaCallHelper();
-
-    void onError(int thread, int errorCode);
-
+    //回调java
+    void  onError(int thread,int errorCode);
+    void onPrepare(int thread);
 private:
     JavaVM *vm;
     JNIEnv *env;
-    jobject instance;
-
+    jobject  instance;
     jmethodID onErrorId;
+    jmethodID onPrepareId;
 };
 
-#endif //DNPLAYERDEMO_JAVACALLHELPER_H
 
-
+#endif //PLAYER_JAVACALLHELPER_H

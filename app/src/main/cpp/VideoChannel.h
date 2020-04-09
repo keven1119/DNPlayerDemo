@@ -1,16 +1,43 @@
 //
-// Created by yons on 2020-04-08.
+// Created by Administrator on 2018/9/5.
 //
 
-#ifndef DNPLAYERDEMO_VIDEOCHANNEL_H
-#define DNPLAYERDEMO_VIDEOCHANNEL_H
+#ifndef PLAYER_VIDEOCHANNEL_H
+#define PLAYER_VIDEOCHANNEL_H
 
 
-class VideoChannel {
+#include "BaseChannel.h"
 
+extern "C" {
+#include <libswscale/swscale.h>
+};
+
+/**
+ * 1、解码
+ * 2、播放
+ */
+typedef void (*RenderFrameCallback)(uint8_t *,int,int,int);
+class VideoChannel : public BaseChannel {
 public:
-    VideoChannel();
+    VideoChannel(int id, AVCodecContext *avCodecContext);
+
+    ~VideoChannel();
+
+    //解码+播放
+    void play();
+
+    void decode();
+
+    void render();
+
+    void setRenderFrameCallback(RenderFrameCallback callback);
+private:
+    pthread_t pid_decode;
+    pthread_t pid_render;
+
+    SwsContext *swsContext=0;
+    RenderFrameCallback callback;
 };
 
 
-#endif //DNPLAYERDEMO_VIDEOCHANNEL_H
+#endif //PLAYER_VIDEOCHANNEL_H
