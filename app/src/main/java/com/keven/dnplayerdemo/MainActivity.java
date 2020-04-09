@@ -55,18 +55,19 @@ public class MainActivity extends RxAppCompatActivity implements View.OnClickLis
         SurfaceView surfaceView = findViewById(R.id.surfaceView);
         dnPlayer = new DNPlayer();
         dnPlayer.setSurfaceView(surfaceView);
-        dnPlayer.setDataSource("rtmp://58.200.131.2:1935/livetv/hunantv");
+        dnPlayer.setDataSource("rtmp://202.69.69.180:443/webcast/bshdlive-pc");
         dnPlayer.setOnPrepareListener(new DNPlayer.OnPrepareListener() {
             @Override
             public void onPrepare() {
-//                runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Toast.makeText(MainActivity.this, "可以开始播放了", Toast.LENGTH_LONG).show();
-//                    }
-//                });
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dnPlayer.start();
 
-                dnPlayer.start();
+                        Toast.makeText(MainActivity.this, "可以开始播放了", Toast.LENGTH_LONG).show();
+                    }
+                });
+
             }
         });
     }

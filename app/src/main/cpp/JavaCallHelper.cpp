@@ -27,10 +27,10 @@ void JavaCallHelper::onError(int thread,int error){
        env->CallVoidMethod(instance,onErrorId,error);
     } else{
         //子线程
-        JNIEnv *env;
+        JNIEnv *newEnv;
         //获得属于我这一个线程的jnienv
-        vm->AttachCurrentThread(&env,0);
-        env->CallVoidMethod(instance,onErrorId,error);
+        vm->AttachCurrentThread(&newEnv,0);
+        newEnv->CallVoidMethod(instance,onErrorId,error);
         vm->DetachCurrentThread();
     }
 }
@@ -40,10 +40,10 @@ void JavaCallHelper::onPrepare(int thread) {
         env->CallVoidMethod(instance,onPrepareId);
     } else{
         //子线程
-        JNIEnv *env;
+        JNIEnv *newEnv;
         //获得属于我这一个线程的jnienv
-        vm->AttachCurrentThread(&env,0);
-        env->CallVoidMethod(instance,onPrepareId);
+        vm->AttachCurrentThread(&newEnv,0);
+        newEnv->CallVoidMethod(instance,onPrepareId);
         vm->DetachCurrentThread();
     }
 }

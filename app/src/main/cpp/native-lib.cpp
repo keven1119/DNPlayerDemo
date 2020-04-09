@@ -6,7 +6,7 @@
 DNFFmpeg *dnfFmpeg = 0;
 JavaVM *javaVm = 0;
 ANativeWindow *window = 0;
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t mutex;
 
 int JNI_OnLoad(JavaVM *vm,void *r){
     javaVm = vm;
